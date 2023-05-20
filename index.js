@@ -52,7 +52,7 @@ async function run() {
             const ToyDisney = await AddCollection.find({}).limit(20).toArray();
              
               
-            res.send(ToyDisney);
+            res.send(ToyDisney) ;
           });
 
           app.get("/AddDolls/:email", async (req, res) => {
