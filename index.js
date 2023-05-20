@@ -40,13 +40,13 @@ async function run() {
             res.send(result);
         })
 
-        // app.post("/AddDolls", async (req, res) => {
-        //     const body = req.body;
-        //     const result = await AddCollection.insertOne(body);
-        //     console.log(body)
-        //     res.send(result);
+        app.post("/AddDolls", async (req, res) => {
+            const body = req.body;
+            const result = await AddCollection.insertOne(body);
+            console.log(body)
+            res.send(result);
             
-        //   });
+          });
 
         //   app.get("/AddDolls", async (req, res) => {
         //     const ToyDisney = await AddCollection.find({}).limit(20).toArray();
