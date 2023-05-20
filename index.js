@@ -33,12 +33,12 @@ async function run() {
         const AddCollection = client.db('disneyPrincess').collection('AddDolls');
 
 
-        // app.get('/dataCollections', async (req, res) => {
-        //     const cursor = dataCollection.find();
+        app.get('/dataCollections', async (req, res) => {
+            const cursor = dataCollection.find();
 
-        //     const result = await cursor.toArray();
-        //     res.send(result);
-        // })
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
         // app.post("/AddDolls", async (req, res) => {
         //     const body = req.body;
