@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -38,9 +38,17 @@ async function run() {
 
             const result = await cursor.toArray();
             res.send(result);
-        })
+        });
 
-        app.post("/AddDolls", async (req, res) => {
+        app.delete('/addDolls/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id : new ObjectId(id)}
+            const result = await AddCollection.deleteOne(query);
+            res.send(result);
+        })
+      
+
+        app.post("/addDolls", async (req, res) => {
             const body = req.body;
             const result = await AddCollection.insertOne(body);
             console.log(body)
@@ -48,19 +56,19 @@ async function run() {
             
           });
 
-          app.get("/AddDolls", async (req, res) => {
+          app.get("/addDolls", async (req, res) => {
             const ToyDisney = await AddCollection.find({}).limit(20).toArray();
              
               
-            res.send(ToyDisney) ;
+            res.send(ToyDisney);
           });
 
           app.get("/AddDolls/:email", async (req, res) => {
             console.log(req.params.email);
-            const toys = await AddCollection
+            const result= await AddCollection
               .find({
                 sellerEmail: req.params.email,}).toArray();
-            res.send(toys);
+            res.send(result);
             
           });
         // Send a ping to confirm a successful connection
