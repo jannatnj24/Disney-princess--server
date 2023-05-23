@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+//        await client.connect();
 
         const dataCollection = client.db('disneyPrincess').collection('dataCollections');
         const AddCollection = client.db('disneyPrincess').collection('AddDolls');
@@ -43,7 +43,7 @@ async function run() {
         app.delete('/addDolls/:id', async (req, res) => {
             const id = req.params.id;
             const query = {_id : new ObjectId(id)}
-            const result = await AddCollection.deleteOne(query) ;
+            const result = await AddCollection.deleteOne(query);
             res.send(result);
         })
       
@@ -51,8 +51,7 @@ async function run() {
         app.post("/addDolls", async (req, res) => {
             const body = req.body;
             const result = await AddCollection.insertOne(body);
-            console.log(body)
-            res.send(result);
+             res.send(result);
             
           });
 
@@ -62,17 +61,37 @@ async function run() {
               
             res.send(ToyDisney);
           });
+          //get single doll
+          app.get("/doll/:id", async (req, res) => {
+            const id = req.params.id;
+            const filter = {_id: new ObjectId(id)}
+            const ToyDisney = await AddCollection.findOne(filter);
+              
+            res.send(ToyDisney);
+          });
+
+          //update doll
+          app.put("/doll/:id", async (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            const filter = {_id: new ObjectId(id)}
+            const updateDoc={
+                $set:data
+            }
+             
+const result = await AddCollection.updateOne(filter,updateDoc);
+res.send(result);
+          });
 
           app.get("/AddDolls/:email", async (req, res) => {
-            console.log(req.params.email);
-            const result= await AddCollection
+             const result= await AddCollection
               .find({
                 sellerEmail: req.params.email,}).toArray();
             res.send(result);
             
           });
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+          client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
